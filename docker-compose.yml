@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  cognivanta-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cognivanta-api-server
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - JWT_SECRET=cognivanta-dev-jwt-secret-key-32chars
+      - CORS_ORIGIN=http://localhost:5173
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  cognivanta-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cognivanta-web-ui
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:3000/api/v1
+    depends_on:
+      - cognivanta-server
+    restart: unless-stopped
