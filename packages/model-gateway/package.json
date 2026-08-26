@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/model-gateway",
+  "version": "1.0.0",
+  "description": "Cognivanta Multi-Provider AI Gateway, Semantic Cache, and Cost Calculator",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
