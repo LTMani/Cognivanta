@@ -1,0 +1,20 @@
+{
+  "name": "@cognivanta/cli",
+  "version": "1.0.0",
+  "description": "Cognivanta Interactive Developer CLI Tool",
+  "bin": {
+    "cognivanta": "./dist/cli.js"
+  },
+  "main": "dist/cli.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*",
+    "@cognivanta/sdk": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

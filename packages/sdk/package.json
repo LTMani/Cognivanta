@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/sdk",
+  "version": "1.0.0",
+  "description": "Official TypeScript & Node.js Client SDK for the Cognivanta Enterprise AI Platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
