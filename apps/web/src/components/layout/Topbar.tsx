@@ -1,5 +1,6 @@
-import React from 'react';
-import { Search, Bell, Building2, ChevronDown, Plus, Moon } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Search, Bell, Building2, ChevronDown, Plus, Moon, LogOut, User, ShieldCheck } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export interface TopbarProps {
   onOpenQuickAction?: () => void;
@@ -7,8 +8,22 @@ export interface TopbarProps {
 }
 
 export const Topbar: React.FC<TopbarProps> = ({ onOpenQuickAction, onOpenSearch }) => {
+  const { user, logout } = useAuth();
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
-    <header className="h-16 bg-surface-300/80 backdrop-blur-md border-b border-card-border px-6 flex items-center justify-between sticky top-0 z-10">
+    <header className="h-16 bg-surface-300/80 backdrop-blur-md border-b border-card-border px-6 flex items-center justify-between sticky top-0 z-20">
       {/* Global Search */}
       <div className="w-96">
         <button
@@ -56,20 +71,69 @@ export const Topbar: React.FC<TopbarProps> = ({ onOpenQuickAction, onOpenSearch 
 
         <div className="h-6 w-px bg-card-border" />
 
-        {/* User Profile matching design ("Tharun Admin") */}
-        <div className="flex items-center gap-3 cursor-pointer pl-1">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-violet flex items-center justify-center font-bold text-white text-xs shadow-glow-primary border border-primary-400/40">
-            T
-          </div>
-          <div className="hidden lg:block text-left">
-            <div className="text-xs font-semibold text-slate-100 flex items-center gap-1">
-              Tharun
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-primary-950 text-primary-400 border border-primary-800/40">
-                Admin
-              </span>
+        {/* User Profile matching design with interactive logout dropdown */}
+        <div className="relative" ref={menuRef}>
+          <div
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+            className="flex items-center gap-3 cursor-pointer pl-1 hover:opacity-90 transition-opacity"
+          >
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-primary-600 to-accent-violet flex items-center justify-center font-bold text-white text-xs shadow-glow-primary border border-primary-400/40">
+              {user?.name?.[0]?.toUpperCase() || 'T'}
             </div>
-            <div className="text-[10px] text-slate-400">tharun@cognivanta.com</div>
+            <div className="hidden lg:block text-left">
+              <div className="text-xs font-semibold text-slate-100 flex items-center gap-1">
+                {user?.name || 'Tharun'}
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-primary-950 text-primary-400 border border-primary-800/40">
+                  {user?.role === 'org_admin' ? 'Admin' : 'Member'}
+                </span>
+              </div>
+              <div className="text-[10px] text-slate-400">{user?.email || 'tharun@cognivanta.com'}</div>
+            </div>
+            <ChevronDown className="w-3 h-3 text-slate-400 ml-0.5" />
           </div>
+
+          {/* User Menu Dropdown */}
+          {isUserMenuOpen && (
+            <div className="absolute right-0 mt-2 w-56 bg-surface-400 border border-card-border rounded-2xl shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2">
+              <div className="px-4 py-2.5 border-b border-card-border/60">
+                <p className="text-xs font-semibold text-slate-100">{user?.name || 'Tharun'}</p>
+                <p className="text-[10px] text-slate-400 truncate">{user?.email || 'tharun@cognivanta.com'}</p>
+              </div>
+
+              <div className="py-1">
+                <button
+                  type="button"
+                  onClick={() => setIsUserMenuOpen(false)}
+                  className="w-full px-4 py-2 text-left text-xs text-slate-300 hover:bg-surface-200 flex items-center gap-2.5"
+                >
+                  <User className="w-3.5 h-3.5 text-primary-400" />
+                  <span>Profile & Security</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsUserMenuOpen(false)}
+                  className="w-full px-4 py-2 text-left text-xs text-slate-300 hover:bg-surface-200 flex items-center gap-2.5"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Active SSO Session</span>
+                </button>
+              </div>
+
+              <div className="pt-1 border-t border-card-border/60">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    logout();
+                  }}
+                  className="w-full px-4 py-2 text-left text-xs text-rose-400 hover:bg-rose-950/40 flex items-center gap-2.5 transition-colors font-semibold"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

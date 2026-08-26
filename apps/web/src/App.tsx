@@ -13,12 +13,23 @@ import { APIManagementPage } from './pages/APIManagementPage';
 import { AuditLogsPage } from './pages/AuditLogsPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { WorkspacePage } from './pages/WorkspacePage';
-import { AuthProvider } from './context/AuthContext';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { WorkspaceProvider } from './context/WorkspaceContext';
 import { NotificationProvider } from './context/NotificationContext';
 
-export const App: React.FC = () => {
+const MainAppContent: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  const [authView, setAuthView] = useState<'login' | 'register'>('login');
   const [activePage, setActivePage] = useState<NavigationPage>('dashboard');
+
+  if (!isAuthenticated) {
+    if (authView === 'register') {
+      return <RegisterPage onNavigateToLogin={() => setAuthView('login')} />;
+    }
+    return <LoginPage onNavigateToRegister={() => setAuthView('register')} />;
+  }
 
   const renderPageContent = () => {
     switch (activePage) {
@@ -52,12 +63,18 @@ export const App: React.FC = () => {
   };
 
   return (
+    <AppShell activePage={activePage} onNavigate={setActivePage}>
+      {renderPageContent()}
+    </AppShell>
+  );
+};
+
+export const App: React.FC = () => {
+  return (
     <AuthProvider>
       <WorkspaceProvider>
         <NotificationProvider>
-          <AppShell activePage={activePage} onNavigate={setActivePage}>
-            {renderPageContent()}
-          </AppShell>
+          <MainAppContent />
         </NotificationProvider>
       </WorkspaceProvider>
     </AuthProvider>
