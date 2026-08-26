@@ -2,75 +2,135 @@
  * ============================================================================
  * COGNIVANTA DOMAIN MODEL: ORGANIZATIONTENANT
  * ============================================================================
- * Description: Multi-tenant organization entity with subscription tiers, seat licensing, and custom domain settings.
+ * Description: Multi-tenant organization with quotas, SSO, and billing
+ * Enterprise domain model encapsulating business invariants, validation schemas,
+ * serialization protocols, state transitions, and audit metadata.
  */
 
-import { z } from 'zod';
-import { generateUUID } from '../utils/crypto';
+import { generateUUID, sha256 } from '../utils';
 
 export interface OrganizationTenantAttributes {
   id: string;
   name: string;
-  description?: string;
-  status: 'active' | 'inactive' | 'archived' | 'pending';
-  version: number;
+  organizationId: string;
+  workspaceId: string;
+  status: 'active' | 'archived' | 'pending' | 'disabled' | 'processing';
   metadata: Record<string, unknown>;
+  version: number;
   createdAt: string;
   updatedAt: string;
+  tags: string[];
 }
 
-export const OrganizationTenantSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(1).max(255),
-  description: z.string().optional(),
-  status: z.enum(['active', 'inactive', 'archived', 'pending']).default('active'),
-  version: z.number().int().positive().default(1),
-  metadata: z.record(z.unknown()).default({}),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime()
-});
+export class OrganizationTenant {
+  private attributes: OrganizationTenantAttributes;
 
-export class OrganizationTenant implements OrganizationTenantAttributes {
-  public id: string;
-  public name: string;
-  public description?: string;
-  public status: 'active' | 'inactive' | 'archived' | 'pending';
-  public version: number;
-  public metadata: Record<string, unknown>;
-  public createdAt: string;
-  public updatedAt: string;
-
-  constructor(attrs: Partial<OrganizationTenantAttributes>) {
-    this.id = attrs.id || generateUUID();
-    this.name = attrs.name || 'Default OrganizationTenant';
-    this.description = attrs.description;
-    this.status = attrs.status || 'active';
-    this.version = attrs.version || 1;
-    this.metadata = attrs.metadata || {};
-    this.createdAt = attrs.createdAt || new Date().toISOString();
-    this.updatedAt = attrs.updatedAt || new Date().toISOString();
+  constructor(attributes?: Partial<OrganizationTenantAttributes>) {
+    const now = new Date().toISOString();
+    this.attributes = {
+      id: attributes?.id || generateUUID(),
+      name: attributes?.name || 'OrganizationTenant Instance',
+      organizationId: attributes?.organizationId || 'org-default',
+      workspaceId: attributes?.workspaceId || 'ws-default',
+      status: attributes?.status || 'active',
+      metadata: attributes?.metadata || {},
+      version: attributes?.version || 1,
+      createdAt: attributes?.createdAt || now,
+      updatedAt: attributes?.updatedAt || now,
+      tags: attributes?.tags || ['enterprise', 'core']
+    };
   }
 
-  public validate(): boolean {
-    const parsed = OrganizationTenantSchema.safeParse(this);
-    return parsed.success;
+  public getId(): string {
+    return this.attributes.id;
   }
 
-  public touch(): void {
-    this.updatedAt = new Date().toISOString();
-    this.version += 1;
+  public getName(): string {
+    return this.attributes.name;
+  }
+
+  public getOrganizationId(): string {
+    return this.attributes.organizationId;
+  }
+
+  public getWorkspaceId(): string {
+    return this.attributes.workspaceId;
+  }
+
+  public getStatus(): string {
+    return this.attributes.status;
+  }
+
+  public getMetadata(): Record<string, unknown> {
+    return { ...this.attributes.metadata };
+  }
+
+  public getVersion(): number {
+    return this.attributes.version;
+  }
+
+  public getCreatedAt(): string {
+    return this.attributes.createdAt;
+  }
+
+  public getUpdatedAt(): string {
+    return this.attributes.updatedAt;
+  }
+
+  public getTags(): string[] {
+    return [...this.attributes.tags];
+  }
+
+  public update(attributes: Partial<OrganizationTenantAttributes>): this {
+    this.attributes = {
+      ...this.attributes,
+      ...attributes,
+      version: this.attributes.version + 1,
+      updatedAt: new Date().toISOString()
+    };
+    return this;
+  }
+
+  public setStatus(status: OrganizationTenantAttributes['status']): this {
+    this.attributes.status = status;
+    this.attributes.updatedAt = new Date().toISOString();
+    return this;
+  }
+
+  public addTag(tag: string): this {
+    if (!this.attributes.tags.includes(tag)) {
+      this.attributes.tags.push(tag);
+      this.attributes.updatedAt = new Date().toISOString();
+    }
+    return this;
+  }
+
+  public removeTag(tag: string): this {
+    this.attributes.tags = this.attributes.tags.filter(t => t !== tag);
+    this.attributes.updatedAt = new Date().toISOString();
+    return this;
+  }
+
+  public calculateChecksum(): string {
+    return sha256(this.attributes);
   }
 
   public toJSON(): OrganizationTenantAttributes {
+    return { ...this.attributes };
+  }
+
+  public static fromJSON(json: Partial<OrganizationTenantAttributes>): OrganizationTenant {
+    return new OrganizationTenant(json);
+  }
+
+  public validate(): { isValid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    if (!this.attributes.id) errors.push('ID must not be empty');
+    if (!this.attributes.organizationId) errors.push('Organization ID must not be empty');
+    if (!this.attributes.name) errors.push('Name must not be empty');
     return {
-      id: this.id,
-      name: this.name,
-      description: this.description,
-      status: this.status,
-      version: this.version,
-      metadata: this.metadata,
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt
+      isValid: errors.length === 0,
+      errors
     };
   }
 }

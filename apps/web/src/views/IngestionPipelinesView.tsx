@@ -5,90 +5,72 @@ import { Badge } from '../components/ui/Badge';
 import { Input } from '../components/ui/Input';
 
 export const IngestionPipelinesView: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [filterQuery, setFilterQuery] = useState('');
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">ETL Ingestion Pipelines</h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Monitor active document parsing jobs, batch OCR extraction, and vector index syncs.
-          </p>
+          <h2 className="text-xl font-bold text-slate-100">Document Ingestion Pipelines</h2>
+          <p className="text-xs text-slate-400 mt-1">Enterprise management view for Document Ingestion Pipelines.</p>
         </div>
         <div className="flex items-center space-x-3">
-          <Button variant="outline" onClick={() => window.location.reload()}>
-            Refresh Data
-          </Button>
-          <Button variant="primary">
-            Configure Settings
-          </Button>
+          <Button variant="outline" size="sm">Export Report</Button>
+          <Button variant="primary" size="sm">Create Entry</Button>
         </div>
       </div>
 
-      <Card>
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
-          <div className="w-full sm:w-80">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card className="p-4">
+          <span className="text-xs font-semibold text-slate-400 uppercase">Operational State</span>
+          <p className="text-lg font-bold text-emerald-400 mt-1">Active (100% SLA)</p>
+        </Card>
+        <Card className="p-4">
+          <span className="text-xs font-semibold text-slate-400 uppercase">Total Tracked Objects</span>
+          <p className="text-lg font-bold text-cyan-400 mt-1">1,842</p>
+        </Card>
+        <Card className="p-4">
+          <span className="text-xs font-semibold text-slate-400 uppercase">Security Isolation</span>
+          <p className="text-lg font-bold text-purple-400 mt-1">Dedicated Tenant</p>
+        </Card>
+      </div>
+
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-4 pb-4 border-b border-card-border">
+          <span className="text-sm font-semibold text-slate-200">Live Telemetry Records</span>
+          <div className="w-64">
             <Input
-              placeholder="Search records, parameters, or logs..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search records..."
+              value={filterQuery}
+              onChange={(e) => setFilterQuery(e.target.value)}
             />
-          </div>
-          <div className="flex items-center space-x-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
-            {['all', 'active', 'pending', 'archived'].map((f) => (
-              <button
-                key={f}
-                onClick={() => setSelectedFilter(f)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize ${
-                  selectedFilter === f
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60'
-                }`}
-              >
-                {f}
-              </button>
-            ))}
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-slate-900/60 text-xs uppercase text-slate-400 font-semibold border-b border-slate-800">
+          <table className="w-full text-left text-xs text-slate-300">
+            <thead className="bg-surface-300 uppercase text-slate-400 font-semibold border-b border-card-border">
               <tr>
-                <th className="py-3 px-4">Identifier / Name</th>
-                <th className="py-3 px-4">Domain / Type</th>
-                <th className="py-3 px-4">Status</th>
-                <th className="py-3 px-4">Health / SLA</th>
-                <th className="py-3 px-4">Last Modified</th>
-                <th className="py-3 px-4 text-right">Actions</th>
+                <th className="py-2.5 px-3">Resource Identifier</th>
+                <th className="py-2.5 px-3">Category</th>
+                <th className="py-2.5 px-3">Status</th>
+                <th className="py-2.5 px-3">Last Verified</th>
+                <th className="py-2.5 px-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
-              {[1, 2, 3, 4, 5, 6].map((idx) => (
-                <tr key={idx} className="hover:bg-slate-850/40 transition-colors">
-                  <td className="py-3.5 px-4 font-medium text-slate-100">
-                    Record Item #${idx}
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-400 text-xs font-mono">
-                    enterprise.core.module
-                  </td>
-                  <td className="py-3.5 px-4">
-                    <Badge variant={idx % 2 === 0 ? 'success' : 'info'}>
-                      {idx % 2 === 0 ? 'Active' : 'Synchronized'}
+            <tbody className="divide-y divide-card-border/50">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                <tr key={i} className="hover:bg-surface-200/50 transition-colors">
+                  <td className="py-2.5 px-3 font-medium text-slate-100">IngestionPipelines-item-${i}</td>
+                  <td className="py-2.5 px-3 text-slate-400 font-mono">core.system.entity</td>
+                  <td className="py-2.5 px-3">
+                    <Badge variant={i % 2 === 0 ? 'emerald' : 'cyan'}>
+                      {i % 2 === 0 ? 'Operational' : 'Synchronized'}
                     </Badge>
                   </td>
-                  <td className="py-3.5 px-4 text-emerald-400 font-mono text-xs">
-                    99.9%
-                  </td>
-                  <td className="py-3.5 px-4 text-slate-400 text-xs">
-                    {new Date().toISOString().split('T')[0]}
-                  </td>
-                  <td className="py-3.5 px-4 text-right">
-                    <Button variant="ghost" size="sm">
-                      Inspect
-                    </Button>
+                  <td className="py-2.5 px-3 text-slate-400">{new Date().toISOString().split('T')[0]}</td>
+                  <td className="py-2.5 px-3 text-right">
+                    <Button variant="ghost" size="sm">Inspect</Button>
                   </td>
                 </tr>
               ))}

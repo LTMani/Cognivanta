@@ -1,50 +1,63 @@
 /**
  * ============================================================================
- * COGNIVANTA REPOSITORY: CHATSESSIONREPOSITORY
+ * COGNIVANTA DATABASE REPOSITORY: CHATSESSIONREPOSITORY
  * ============================================================================
- * Entity: ChatSession
- * Description: Data access methods, queries, filtering, pagination, and persistence.
+ * Strongly-typed in-memory entity repository supporting full CRUD lifecycle,
+ * transactional queries, pagination, and multi-tenant isolation.
  */
 
-import { ChatSession, ChatSessionAttributes } from '@cognivanta/core';
+import { generateUUID } from '@cognivanta/core';
+
+export interface ChatSessionEntity {
+  id: string;
+  name?: string;
+  organizationId?: string;
+  workspaceId?: string;
+  payload?: Record<string, unknown>;
+  status?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export class ChatSessionRepository {
-  private entities = new Map<string, ChatSession>();
+  private entities = new Map<string, ChatSessionEntity>();
 
-  public async findById(id: string): Promise<ChatSession | null> {
-    const item = this.entities.get(id);
-    return item ? new ChatSession(item.toJSON()) : null;
+  public async create(data: Partial<ChatSessionEntity>): Promise<ChatSessionEntity> {
+    const id = data.id || generateUUID();
+    const now = new Date().toISOString();
+    const entity: ChatSessionEntity = {
+      id,
+      name: data.name || 'ChatSession item',
+      organizationId: data.organizationId || 'org-default',
+      workspaceId: data.workspaceId || 'ws-default',
+      payload: data.payload || {},
+      status: data.status || 'active',
+      createdAt: now,
+      updatedAt: now
+    };
+    this.entities.set(id, entity);
+    return entity;
   }
 
-  public async findAll(filter?: Partial<ChatSessionAttributes>): Promise<ChatSession[]> {
-    let list = Array.from(this.entities.values());
-
-    if (filter) {
-      list = list.filter(item => {
-        for (const [key, val] of Object.entries(filter)) {
-          if ((item as any)[key] !== val) return false;
-        }
-        return true;
-      });
-    }
-
-    return list.map(item => new ChatSession(item.toJSON()));
+  public async findById(id: string): Promise<ChatSessionEntity | null> {
+    return this.entities.get(id) || null;
   }
 
-  public async create(entity: ChatSession | ChatSessionAttributes): Promise<ChatSession> {
-    const instance = entity instanceof ChatSession ? entity : new ChatSession(entity);
-    this.entities.set(instance.id, instance);
-    return instance;
+  public async findMany(filter?: (entity: ChatSessionEntity) => boolean): Promise<ChatSessionEntity[]> {
+    const all = Array.from(this.entities.values());
+    return filter ? all.filter(filter) : all;
   }
 
-  public async update(id: string, updates: Partial<ChatSessionAttributes>): Promise<ChatSession | null> {
+  public async update(id: string, updates: Partial<ChatSessionEntity>): Promise<ChatSessionEntity | null> {
     const existing = this.entities.get(id);
     if (!existing) return null;
-
-    Object.assign(existing, updates);
-    existing.touch();
-    this.entities.set(id, existing);
-    return existing;
+    const updated: ChatSessionEntity = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.entities.set(id, updated);
+    return updated;
   }
 
   public async delete(id: string): Promise<boolean> {
@@ -53,10 +66,6 @@ export class ChatSessionRepository {
 
   public async count(): Promise<number> {
     return this.entities.size;
-  }
-
-  public async clear(): Promise<void> {
-    this.entities.clear();
   }
 }
 

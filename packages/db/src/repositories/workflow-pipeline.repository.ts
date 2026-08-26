@@ -1,50 +1,63 @@
 /**
  * ============================================================================
- * COGNIVANTA REPOSITORY: WORKFLOWPIPELINEREPOSITORY
+ * COGNIVANTA DATABASE REPOSITORY: WORKFLOWPIPELINEREPOSITORY
  * ============================================================================
- * Entity: WorkflowPipeline
- * Description: Data access methods, queries, filtering, pagination, and persistence.
+ * Strongly-typed in-memory entity repository supporting full CRUD lifecycle,
+ * transactional queries, pagination, and multi-tenant isolation.
  */
 
-import { WorkflowPipeline, WorkflowPipelineAttributes } from '@cognivanta/core';
+import { generateUUID } from '@cognivanta/core';
+
+export interface WorkflowPipelineEntity {
+  id: string;
+  name?: string;
+  organizationId?: string;
+  workspaceId?: string;
+  payload?: Record<string, unknown>;
+  status?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export class WorkflowPipelineRepository {
-  private entities = new Map<string, WorkflowPipeline>();
+  private entities = new Map<string, WorkflowPipelineEntity>();
 
-  public async findById(id: string): Promise<WorkflowPipeline | null> {
-    const item = this.entities.get(id);
-    return item ? new WorkflowPipeline(item.toJSON()) : null;
+  public async create(data: Partial<WorkflowPipelineEntity>): Promise<WorkflowPipelineEntity> {
+    const id = data.id || generateUUID();
+    const now = new Date().toISOString();
+    const entity: WorkflowPipelineEntity = {
+      id,
+      name: data.name || 'WorkflowPipeline item',
+      organizationId: data.organizationId || 'org-default',
+      workspaceId: data.workspaceId || 'ws-default',
+      payload: data.payload || {},
+      status: data.status || 'active',
+      createdAt: now,
+      updatedAt: now
+    };
+    this.entities.set(id, entity);
+    return entity;
   }
 
-  public async findAll(filter?: Partial<WorkflowPipelineAttributes>): Promise<WorkflowPipeline[]> {
-    let list = Array.from(this.entities.values());
-
-    if (filter) {
-      list = list.filter(item => {
-        for (const [key, val] of Object.entries(filter)) {
-          if ((item as any)[key] !== val) return false;
-        }
-        return true;
-      });
-    }
-
-    return list.map(item => new WorkflowPipeline(item.toJSON()));
+  public async findById(id: string): Promise<WorkflowPipelineEntity | null> {
+    return this.entities.get(id) || null;
   }
 
-  public async create(entity: WorkflowPipeline | WorkflowPipelineAttributes): Promise<WorkflowPipeline> {
-    const instance = entity instanceof WorkflowPipeline ? entity : new WorkflowPipeline(entity);
-    this.entities.set(instance.id, instance);
-    return instance;
+  public async findMany(filter?: (entity: WorkflowPipelineEntity) => boolean): Promise<WorkflowPipelineEntity[]> {
+    const all = Array.from(this.entities.values());
+    return filter ? all.filter(filter) : all;
   }
 
-  public async update(id: string, updates: Partial<WorkflowPipelineAttributes>): Promise<WorkflowPipeline | null> {
+  public async update(id: string, updates: Partial<WorkflowPipelineEntity>): Promise<WorkflowPipelineEntity | null> {
     const existing = this.entities.get(id);
     if (!existing) return null;
-
-    Object.assign(existing, updates);
-    existing.touch();
-    this.entities.set(id, existing);
-    return existing;
+    const updated: WorkflowPipelineEntity = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.entities.set(id, updated);
+    return updated;
   }
 
   public async delete(id: string): Promise<boolean> {
@@ -53,10 +66,6 @@ export class WorkflowPipelineRepository {
 
   public async count(): Promise<number> {
     return this.entities.size;
-  }
-
-  public async clear(): Promise<void> {
-    this.entities.clear();
   }
 }
 

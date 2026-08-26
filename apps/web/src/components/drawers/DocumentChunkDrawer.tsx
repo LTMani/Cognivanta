@@ -3,51 +3,38 @@ import { Drawer } from '../ui/Drawer';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 
-interface DocumentChunkDrawerProps {
+export interface DocumentChunkDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  itemData?: Record<string, unknown>;
+  item?: Record<string, unknown>;
 }
 
-export const DocumentChunkDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
+export const DocumentChunkDrawer: React.FC<DocumentChunkDrawerProps> = ({ isOpen, onClose, item }) => {
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} title="Document Chunk & Vector Inspector">
+    <Drawer isOpen={isOpen} onClose={onClose} title="DocumentChunk Inspector">
       <div className="space-y-6">
-        <div>
-          <p className="text-xs text-slate-400">
-            Inspect segmented text chunks, token lengths, embedding coordinates, and source pages.
-          </p>
-        </div>
-
-        <div className="bg-slate-950/60 border border-slate-800 rounded-lg p-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase">Verification Status</span>
-            <Badge variant="success">Verified Active</Badge>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase">Integrity Hash</span>
-            <span className="text-xs font-mono text-cyan-400">e3b0c44298fc1c149afbf4...</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-400 uppercase">Timestamp</span>
-            <span className="text-xs text-slate-300">{new Date().toISOString()}</span>
+        <div className="p-4 bg-surface-300 rounded-2xl border border-card-border">
+          <span className="text-xs font-semibold text-slate-400 uppercase">Entity Classification</span>
+          <p className="text-lg font-bold text-slate-100 mt-1">{String(item?.name || 'DocumentChunk Instance')}</p>
+          <div className="flex items-center gap-2 mt-2">
+            <Badge variant="emerald">Operational</Badge>
+            <span className="text-xs text-slate-400 font-mono">ID: {String(item?.id || 'res-default')}</span>
           </div>
         </div>
 
-        <div className="space-y-2">
-          <h4 className="text-xs font-semibold uppercase text-slate-400">Resource Attributes</h4>
-          <div className="bg-slate-900/80 border border-slate-800 rounded-lg p-3 overflow-x-auto text-xs font-mono text-slate-300">
-            <pre>{JSON.stringify({ ...itemData, verified: true, slaUptime: '99.9%' }, null, 2)}</pre>
+        <div className="space-y-3">
+          <h4 className="text-xs font-semibold uppercase text-slate-400">Metadata Invariants</h4>
+          <div className="p-3 bg-surface-300/80 rounded-xl border border-card-border text-xs font-mono space-y-1.5 text-slate-300">
+            <div><strong>Created:</strong> {new Date().toISOString()}</div>
+            <div><strong>Organization:</strong> org-cognivanta-inc</div>
+            <div><strong>Security Tier:</strong> Dedicated Tenant</div>
+            <div><strong>Audit Status:</strong> SHA-256 Verified</div>
           </div>
         </div>
 
-        <div className="pt-4 border-t border-slate-800 flex items-center justify-end space-x-3">
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            Close Inspector
-          </Button>
-          <Button variant="primary" size="sm">
-            Export JSON
-          </Button>
+        <div className="pt-4 border-t border-card-border flex justify-end space-x-3">
+          <Button variant="outline" size="sm" onClick={onClose}>Close</Button>
+          <Button variant="primary" size="sm">Save Changes</Button>
         </div>
       </div>
     </Drawer>

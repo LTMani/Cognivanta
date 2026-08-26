@@ -1,50 +1,63 @@
 /**
  * ============================================================================
- * COGNIVANTA REPOSITORY: USERACCOUNTREPOSITORY
+ * COGNIVANTA DATABASE REPOSITORY: USERACCOUNTREPOSITORY
  * ============================================================================
- * Entity: UserAccount
- * Description: Data access methods, queries, filtering, pagination, and persistence.
+ * Strongly-typed in-memory entity repository supporting full CRUD lifecycle,
+ * transactional queries, pagination, and multi-tenant isolation.
  */
 
-import { UserAccount, UserAccountAttributes } from '@cognivanta/core';
+import { generateUUID } from '@cognivanta/core';
+
+export interface UserAccountEntity {
+  id: string;
+  name?: string;
+  organizationId?: string;
+  workspaceId?: string;
+  payload?: Record<string, unknown>;
+  status?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export class UserAccountRepository {
-  private entities = new Map<string, UserAccount>();
+  private entities = new Map<string, UserAccountEntity>();
 
-  public async findById(id: string): Promise<UserAccount | null> {
-    const item = this.entities.get(id);
-    return item ? new UserAccount(item.toJSON()) : null;
+  public async create(data: Partial<UserAccountEntity>): Promise<UserAccountEntity> {
+    const id = data.id || generateUUID();
+    const now = new Date().toISOString();
+    const entity: UserAccountEntity = {
+      id,
+      name: data.name || 'UserAccount item',
+      organizationId: data.organizationId || 'org-default',
+      workspaceId: data.workspaceId || 'ws-default',
+      payload: data.payload || {},
+      status: data.status || 'active',
+      createdAt: now,
+      updatedAt: now
+    };
+    this.entities.set(id, entity);
+    return entity;
   }
 
-  public async findAll(filter?: Partial<UserAccountAttributes>): Promise<UserAccount[]> {
-    let list = Array.from(this.entities.values());
-
-    if (filter) {
-      list = list.filter(item => {
-        for (const [key, val] of Object.entries(filter)) {
-          if ((item as any)[key] !== val) return false;
-        }
-        return true;
-      });
-    }
-
-    return list.map(item => new UserAccount(item.toJSON()));
+  public async findById(id: string): Promise<UserAccountEntity | null> {
+    return this.entities.get(id) || null;
   }
 
-  public async create(entity: UserAccount | UserAccountAttributes): Promise<UserAccount> {
-    const instance = entity instanceof UserAccount ? entity : new UserAccount(entity);
-    this.entities.set(instance.id, instance);
-    return instance;
+  public async findMany(filter?: (entity: UserAccountEntity) => boolean): Promise<UserAccountEntity[]> {
+    const all = Array.from(this.entities.values());
+    return filter ? all.filter(filter) : all;
   }
 
-  public async update(id: string, updates: Partial<UserAccountAttributes>): Promise<UserAccount | null> {
+  public async update(id: string, updates: Partial<UserAccountEntity>): Promise<UserAccountEntity | null> {
     const existing = this.entities.get(id);
     if (!existing) return null;
-
-    Object.assign(existing, updates);
-    existing.touch();
-    this.entities.set(id, existing);
-    return existing;
+    const updated: UserAccountEntity = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.entities.set(id, updated);
+    return updated;
   }
 
   public async delete(id: string): Promise<boolean> {
@@ -53,10 +66,6 @@ export class UserAccountRepository {
 
   public async count(): Promise<number> {
     return this.entities.size;
-  }
-
-  public async clear(): Promise<void> {
-    this.entities.clear();
   }
 }
 

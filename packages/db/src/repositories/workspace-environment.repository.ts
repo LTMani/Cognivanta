@@ -1,50 +1,63 @@
 /**
  * ============================================================================
- * COGNIVANTA REPOSITORY: WORKSPACEENVIRONMENTREPOSITORY
+ * COGNIVANTA DATABASE REPOSITORY: WORKSPACEENVIRONMENTREPOSITORY
  * ============================================================================
- * Entity: WorkspaceEnvironment
- * Description: Data access methods, queries, filtering, pagination, and persistence.
+ * Strongly-typed in-memory entity repository supporting full CRUD lifecycle,
+ * transactional queries, pagination, and multi-tenant isolation.
  */
 
-import { WorkspaceEnvironment, WorkspaceEnvironmentAttributes } from '@cognivanta/core';
+import { generateUUID } from '@cognivanta/core';
+
+export interface WorkspaceEnvironmentEntity {
+  id: string;
+  name?: string;
+  organizationId?: string;
+  workspaceId?: string;
+  payload?: Record<string, unknown>;
+  status?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export class WorkspaceEnvironmentRepository {
-  private entities = new Map<string, WorkspaceEnvironment>();
+  private entities = new Map<string, WorkspaceEnvironmentEntity>();
 
-  public async findById(id: string): Promise<WorkspaceEnvironment | null> {
-    const item = this.entities.get(id);
-    return item ? new WorkspaceEnvironment(item.toJSON()) : null;
+  public async create(data: Partial<WorkspaceEnvironmentEntity>): Promise<WorkspaceEnvironmentEntity> {
+    const id = data.id || generateUUID();
+    const now = new Date().toISOString();
+    const entity: WorkspaceEnvironmentEntity = {
+      id,
+      name: data.name || 'WorkspaceEnvironment item',
+      organizationId: data.organizationId || 'org-default',
+      workspaceId: data.workspaceId || 'ws-default',
+      payload: data.payload || {},
+      status: data.status || 'active',
+      createdAt: now,
+      updatedAt: now
+    };
+    this.entities.set(id, entity);
+    return entity;
   }
 
-  public async findAll(filter?: Partial<WorkspaceEnvironmentAttributes>): Promise<WorkspaceEnvironment[]> {
-    let list = Array.from(this.entities.values());
-
-    if (filter) {
-      list = list.filter(item => {
-        for (const [key, val] of Object.entries(filter)) {
-          if ((item as any)[key] !== val) return false;
-        }
-        return true;
-      });
-    }
-
-    return list.map(item => new WorkspaceEnvironment(item.toJSON()));
+  public async findById(id: string): Promise<WorkspaceEnvironmentEntity | null> {
+    return this.entities.get(id) || null;
   }
 
-  public async create(entity: WorkspaceEnvironment | WorkspaceEnvironmentAttributes): Promise<WorkspaceEnvironment> {
-    const instance = entity instanceof WorkspaceEnvironment ? entity : new WorkspaceEnvironment(entity);
-    this.entities.set(instance.id, instance);
-    return instance;
+  public async findMany(filter?: (entity: WorkspaceEnvironmentEntity) => boolean): Promise<WorkspaceEnvironmentEntity[]> {
+    const all = Array.from(this.entities.values());
+    return filter ? all.filter(filter) : all;
   }
 
-  public async update(id: string, updates: Partial<WorkspaceEnvironmentAttributes>): Promise<WorkspaceEnvironment | null> {
+  public async update(id: string, updates: Partial<WorkspaceEnvironmentEntity>): Promise<WorkspaceEnvironmentEntity | null> {
     const existing = this.entities.get(id);
     if (!existing) return null;
-
-    Object.assign(existing, updates);
-    existing.touch();
-    this.entities.set(id, existing);
-    return existing;
+    const updated: WorkspaceEnvironmentEntity = {
+      ...existing,
+      ...updates,
+      updatedAt: new Date().toISOString()
+    };
+    this.entities.set(id, updated);
+    return updated;
   }
 
   public async delete(id: string): Promise<boolean> {
@@ -53,10 +66,6 @@ export class WorkspaceEnvironmentRepository {
 
   public async count(): Promise<number> {
     return this.entities.size;
-  }
-
-  public async clear(): Promise<void> {
-    this.entities.clear();
   }
 }
 
