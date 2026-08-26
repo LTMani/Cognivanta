@@ -2,7 +2,23 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@cognivanta/core": ["../../packages/core/src/index.ts"],
+      "@cognivanta/db": ["../../packages/db/src/index.ts"],
+      "@cognivanta/model-gateway": ["../../packages/model-gateway/src/index.ts"],
+      "@cognivanta/rag-engine": ["../../packages/rag-engine/src/index.ts"],
+      "@cognivanta/vector-store": ["../../packages/vector-store/src/index.ts"],
+      "@cognivanta/agent-engine": ["../../packages/agent-engine/src/index.ts"],
+      "@cognivanta/workflow-engine": ["../../packages/workflow-engine/src/index.ts"],
+      "@cognivanta/analytics-metering": ["../../packages/analytics-metering/src/index.ts"],
+      "@cognivanta/eval-engine": ["../../packages/eval-engine/src/index.ts"],
+      "@cognivanta/audit-compliance": ["../../packages/audit-compliance/src/index.ts"],
+      "@cognivanta/sdk": ["../../packages/sdk/src/index.ts"],
+      "@cognivanta/security-guardrails": ["../../packages/security-guardrails/src/index.ts"],
+      "@cognivanta/event-streaming": ["../../packages/event-streaming/src/index.ts"]
+    }
   },
   "include": ["src/**/*"]
 }

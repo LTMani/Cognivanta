@@ -2,13 +2,18 @@
   "name": "@cognivanta/core",
   "version": "1.0.0",
   "description": "Cognivanta Core Shared Types, Domain Schemas, Error Hierarchy, and Event Bus",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "test": "node --test"
   },
-  "keywords": ["cognivanta", "core", "types", "schemas"],
+  "keywords": [
+    "cognivanta",
+    "core",
+    "types",
+    "schemas"
+  ],
   "author": "Cognivanta Engineering Team",
   "license": "Apache-2.0",
   "dependencies": {

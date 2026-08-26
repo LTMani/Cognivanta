@@ -2,8 +2,8 @@
   "name": "@cognivanta/security-guardrails",
   "version": "1.0.0",
   "description": "Cognivanta Enterprise Guardrails, Prompt Injection Defense, Toxicity Classifier, and DLP Engine",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "test": "node --test"
