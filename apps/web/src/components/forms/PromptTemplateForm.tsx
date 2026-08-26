@@ -9,7 +9,7 @@ interface PromptTemplateFormProps {
   onCancel?: () => void;
 }
 
-export const PromptTemplateForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const PromptTemplateForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

@@ -6,7 +6,7 @@ interface ErrorRateTimeseriesProps {
   height?: number;
 }
 
-export const ErrorRateTimeseries: React.FC<undefined> = ({
+export const ErrorRateTimeseries: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

@@ -6,7 +6,7 @@ interface DocumentIngestionHeatmapProps {
   height?: number;
 }
 
-export const DocumentIngestionHeatmap: React.FC<undefined> = ({
+export const DocumentIngestionHeatmap: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

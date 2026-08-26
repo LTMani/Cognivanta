@@ -9,7 +9,7 @@ interface ComplianceCertDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const ComplianceCertDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const ComplianceCertDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="SOC2 / HIPAA Compliance Certificate">
       <div className="space-y-6">

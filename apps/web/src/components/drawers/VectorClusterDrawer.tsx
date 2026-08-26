@@ -9,7 +9,7 @@ interface VectorClusterDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const VectorClusterDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const VectorClusterDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Vector Space Cluster Explorer">
       <div className="space-y-6">

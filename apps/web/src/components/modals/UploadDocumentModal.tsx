@@ -9,7 +9,7 @@ interface UploadDocumentModalProps {
   onSubmit: (data: Record<string, unknown>) => void;
 }
 
-export const UploadDocumentModal: React.FC<undefined> = ({ isOpen, onClose, onSubmit }) => {
+export const UploadDocumentModal: React.FC<any> = ({ isOpen, onClose, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

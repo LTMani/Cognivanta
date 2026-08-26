@@ -6,7 +6,7 @@ interface UsersTableProps {
   onSelectRow?: (rowId: string) => void;
 }
 
-export const UsersTable: React.FC<undefined> = ({ onSelectRow }) => {
+export const UsersTable: React.FC<any> = ({ onSelectRow }) => {
   return (
     <div className="overflow-x-auto border border-slate-800/80 rounded-xl bg-slate-900/60">
       <table className="w-full text-left text-sm text-slate-300">

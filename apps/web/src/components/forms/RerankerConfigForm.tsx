@@ -9,7 +9,7 @@ interface RerankerConfigFormProps {
   onCancel?: () => void;
 }
 
-export const RerankerConfigForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const RerankerConfigForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

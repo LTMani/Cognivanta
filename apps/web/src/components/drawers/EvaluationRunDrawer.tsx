@@ -9,7 +9,7 @@ interface EvaluationRunDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const EvaluationRunDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const EvaluationRunDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Evaluation Run Benchmark Metrics">
       <div className="space-y-6">

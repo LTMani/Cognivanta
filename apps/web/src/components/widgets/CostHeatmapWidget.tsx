@@ -7,7 +7,7 @@ interface CostHeatmapWidgetProps {
   height?: number;
 }
 
-export const CostHeatmapWidget: React.FC<undefined> = ({
+export const CostHeatmapWidget: React.FC<any> = ({
   title = 'CostHeatmapWidget',
   height = 280
 }) => {

@@ -9,7 +9,7 @@ interface NotificationDetailDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const NotificationDetailDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const NotificationDetailDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Security Alert & Notification">
       <div className="space-y-6">

@@ -7,7 +7,7 @@ interface MarkdownDocumentViewerProps {
   height?: number;
 }
 
-export const MarkdownDocumentViewer: React.FC<undefined> = ({
+export const MarkdownDocumentViewer: React.FC<any> = ({
   title = 'MarkdownDocumentViewer',
   height = 280
 }) => {

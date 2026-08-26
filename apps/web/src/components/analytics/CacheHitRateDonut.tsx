@@ -6,7 +6,7 @@ interface CacheHitRateDonutProps {
   height?: number;
 }
 
-export const CacheHitRateDonut: React.FC<undefined> = ({
+export const CacheHitRateDonut: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

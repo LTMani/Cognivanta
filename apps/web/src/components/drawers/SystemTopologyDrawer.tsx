@@ -9,7 +9,7 @@ interface SystemTopologyDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const SystemTopologyDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const SystemTopologyDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Platform System Architecture">
       <div className="space-y-6">

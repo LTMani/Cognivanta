@@ -9,7 +9,7 @@ interface ModelPricingDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const ModelPricingDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const ModelPricingDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="LLM Model Cost & Pricing Card">
       <div className="space-y-6">

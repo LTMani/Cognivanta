@@ -9,7 +9,7 @@ interface ModelRoutingFormProps {
   onCancel?: () => void;
 }
 
-export const ModelRoutingForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const ModelRoutingForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

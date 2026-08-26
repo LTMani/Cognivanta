@@ -9,7 +9,7 @@ interface DocumentChunkDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const DocumentChunkDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const DocumentChunkDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Document Chunk & Vector Inspector">
       <div className="space-y-6">

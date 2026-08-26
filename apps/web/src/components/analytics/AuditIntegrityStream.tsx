@@ -6,7 +6,7 @@ interface AuditIntegrityStreamProps {
   height?: number;
 }
 
-export const AuditIntegrityStream: React.FC<undefined> = ({
+export const AuditIntegrityStream: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

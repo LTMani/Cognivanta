@@ -9,7 +9,7 @@ interface TelemetryInspectorDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const TelemetryInspectorDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const TelemetryInspectorDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Cluster Telemetry & Latency">
       <div className="space-y-6">

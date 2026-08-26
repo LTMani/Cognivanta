@@ -9,7 +9,7 @@ interface DataQualityDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const DataQualityDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const DataQualityDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Data Quality & Schema Assertions">
       <div className="space-y-6">

@@ -7,7 +7,7 @@ interface TokenSunburstChartProps {
   height?: number;
 }
 
-export const TokenSunburstChart: React.FC<undefined> = ({
+export const TokenSunburstChart: React.FC<any> = ({
   title = 'TokenSunburstChart',
   height = 280
 }) => {

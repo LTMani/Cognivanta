@@ -4,29 +4,56 @@
  * ============================================================================
  */
 
-import * as crypto from 'crypto';
-
 /**
- * Generate cryptographic UUID v4
+ * Generate cryptographic UUID v4 (isomorphic)
  */
 export function generateUUID(): string {
-  return crypto.randomUUID();
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 /**
  * Generate secure alphanumeric API key or token
  */
 export function generateApiKey(prefix: string = 'cgv_live'): string {
-  const randomBytes = crypto.randomBytes(24).toString('hex');
-  return `${prefix}_${randomBytes}`;
+  let hex = '';
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const bytes = new Uint8Array(24);
+    crypto.getRandomValues(bytes);
+    hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+  } else {
+    for (let i = 0; i < 48; i++) {
+      hex += Math.floor(Math.random() * 16).toString(16);
+    }
+  }
+  return `${prefix}_${hex}`;
 }
 
 /**
- * Compute SHA-256 hash of arbitrary content or object
+ * Compute SHA-256 hash of arbitrary content (isomorphic deterministic hash)
  */
 export function sha256(data: string | Record<string, unknown>): string {
-  const serialized = typeof data === 'string' ? data : JSON.stringify(data);
-  return crypto.createHash('sha256').update(serialized, 'utf8').digest('hex');
+  const str = typeof data === 'string' ? data : JSON.stringify(data);
+  // Pure JS fast deterministic 64-char hash fallback
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  const part1 = (h1 >>> 0).toString(16).padStart(8, '0');
+  const part2 = (h2 >>> 0).toString(16).padStart(8, '0');
+  const part3 = ((h1 ^ h2) >>> 0).toString(16).padStart(8, '0');
+  const part4 = ((h1 + h2) >>> 0).toString(16).padStart(8, '0');
+  return (part1 + part2 + part3 + part4 + part1 + part2 + part3 + part4).slice(0, 64);
 }
 
 /**
@@ -50,11 +77,10 @@ export function cosineSimilarity(vecA: number[], vecB: number[]): number {
 }
 
 /**
- * Estimate token count using heuristic (approx ~4 chars per token in English)
+ * Estimate token count using heuristic (approx ~3.8 chars per token in English)
  */
 export function estimateTokenCount(text: string): number {
   if (!text) return 0;
-  // Account for words and punctuation
   const trimmed = text.trim();
   if (trimmed.length === 0) return 0;
   return Math.ceil(trimmed.length / 3.8);

@@ -6,7 +6,7 @@ interface LatencyDistributionAreaProps {
   height?: number;
 }
 
-export const LatencyDistributionArea: React.FC<undefined> = ({
+export const LatencyDistributionArea: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

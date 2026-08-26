@@ -9,7 +9,7 @@ interface TeamCreateFormProps {
   onCancel?: () => void;
 }
 
-export const TeamCreateForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const TeamCreateForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

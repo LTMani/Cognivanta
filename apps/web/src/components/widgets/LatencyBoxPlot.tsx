@@ -7,7 +7,7 @@ interface LatencyBoxPlotProps {
   height?: number;
 }
 
-export const LatencyBoxPlot: React.FC<undefined> = ({
+export const LatencyBoxPlot: React.FC<any> = ({
   title = 'LatencyBoxPlot',
   height = 280
 }) => {

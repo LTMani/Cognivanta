@@ -6,7 +6,7 @@ interface QueryVolumeTrendChartProps {
   height?: number;
 }
 
-export const QueryVolumeTrendChart: React.FC<undefined> = ({
+export const QueryVolumeTrendChart: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

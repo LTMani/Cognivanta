@@ -7,7 +7,7 @@ interface DAGGraphViewerProps {
   height?: number;
 }
 
-export const DAGGraphViewer: React.FC<undefined> = ({
+export const DAGGraphViewer: React.FC<any> = ({
   title = 'DAGGraphViewer',
   height = 280
 }) => {

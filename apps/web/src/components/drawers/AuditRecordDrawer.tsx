@@ -9,7 +9,7 @@ interface AuditRecordDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const AuditRecordDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const AuditRecordDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Cryptographic Audit Block Details">
       <div className="space-y-6">

@@ -9,7 +9,7 @@ interface ConnectorStatusDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const ConnectorStatusDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const ConnectorStatusDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Data Connector Sync Health">
       <div className="space-y-6">

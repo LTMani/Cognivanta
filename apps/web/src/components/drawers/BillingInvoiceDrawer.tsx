@@ -9,7 +9,7 @@ interface BillingInvoiceDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const BillingInvoiceDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const BillingInvoiceDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Monthly Token Usage & Invoice">
       <div className="space-y-6">

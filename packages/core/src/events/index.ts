@@ -2,10 +2,9 @@
  * ============================================================================
  * COGNIVANTA PLATFORM EVENT BUS & SUBSCRIPTION SYSTEM
  * ============================================================================
- * Strongly-typed in-memory and distributed event bus for platform telemetry and reactive hooks.
+ * Strongly-typed isomorphic event bus for platform telemetry and reactive hooks.
  */
 
-import { EventEmitter } from 'events';
 import { AuditLogEntry, ChatMessage, AgentExecutionStep, DocumentRecord } from '../types';
 
 export interface PlatformEventMap {
@@ -27,12 +26,7 @@ export type EventHandler<K extends EventKey> = (payload: PlatformEventMap[K]) =>
 
 export class PlatformEventBus {
   private static instance: PlatformEventBus;
-  private emitter: EventEmitter;
-
-  private constructor() {
-    this.emitter = new EventEmitter();
-    this.emitter.setMaxListeners(100);
-  }
+  private listeners: Map<string, Set<Function>> = new Map();
 
   public static getInstance(): PlatformEventBus {
     if (!PlatformEventBus.instance) {
@@ -42,29 +36,47 @@ export class PlatformEventBus {
   }
 
   public emit<K extends EventKey>(event: K, payload: PlatformEventMap[K]): boolean {
-    return this.emitter.emit(event, payload);
+    const handlers = this.listeners.get(event);
+    if (!handlers || handlers.size === 0) return false;
+    for (const fn of handlers) {
+      try {
+        fn(payload);
+      } catch (err) {
+        console.error(`[EventBus] Error in handler for event "${event}":`, err);
+      }
+    }
+    return true;
   }
 
   public on<K extends EventKey>(event: K, handler: EventHandler<K>): this {
-    this.emitter.on(event, handler as (...args: unknown[]) => void);
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, new Set());
+    }
+    this.listeners.get(event)!.add(handler);
     return this;
   }
 
   public once<K extends EventKey>(event: K, handler: EventHandler<K>): this {
-    this.emitter.once(event, handler as (...args: unknown[]) => void);
-    return this;
+    const wrapper = (payload: PlatformEventMap[K]) => {
+      this.off(event, wrapper as EventHandler<K>);
+      handler(payload);
+    };
+    return this.on(event, wrapper as EventHandler<K>);
   }
 
   public off<K extends EventKey>(event: K, handler: EventHandler<K>): this {
-    this.emitter.off(event, handler as (...args: unknown[]) => void);
+    const handlers = this.listeners.get(event);
+    if (handlers) {
+      handlers.delete(handler);
+    }
     return this;
   }
 
   public removeAllListeners(event?: EventKey): this {
     if (event) {
-      this.emitter.removeAllListeners(event);
+      this.listeners.delete(event);
     } else {
-      this.emitter.removeAllListeners();
+      this.listeners.clear();
     }
     return this;
   }

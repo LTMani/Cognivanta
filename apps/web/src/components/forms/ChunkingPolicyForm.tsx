@@ -9,7 +9,7 @@ interface ChunkingPolicyFormProps {
   onCancel?: () => void;
 }
 
-export const ChunkingPolicyForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const ChunkingPolicyForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

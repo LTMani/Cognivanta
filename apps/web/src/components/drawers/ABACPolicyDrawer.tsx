@@ -9,7 +9,7 @@ interface ABACPolicyDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const ABACPolicyDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const ABACPolicyDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="ABAC Policy Rule Inspector">
       <div className="space-y-6">

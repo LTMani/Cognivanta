@@ -7,7 +7,7 @@ interface AuditChainVisualizerProps {
   height?: number;
 }
 
-export const AuditChainVisualizer: React.FC<undefined> = ({
+export const AuditChainVisualizer: React.FC<any> = ({
   title = 'AuditChainVisualizer',
   height = 280
 }) => {

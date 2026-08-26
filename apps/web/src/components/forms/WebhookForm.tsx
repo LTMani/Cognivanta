@@ -9,7 +9,7 @@ interface WebhookFormProps {
   onCancel?: () => void;
 }
 
-export const WebhookForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const WebhookForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

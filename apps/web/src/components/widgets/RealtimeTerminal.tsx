@@ -7,7 +7,7 @@ interface RealtimeTerminalProps {
   height?: number;
 }
 
-export const RealtimeTerminal: React.FC<undefined> = ({
+export const RealtimeTerminal: React.FC<any> = ({
   title = 'RealtimeTerminal',
   height = 280
 }) => {

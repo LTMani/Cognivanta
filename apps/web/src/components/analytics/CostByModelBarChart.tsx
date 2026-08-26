@@ -6,7 +6,7 @@ interface CostByModelBarChartProps {
   height?: number;
 }
 
-export const CostByModelBarChart: React.FC<undefined> = ({
+export const CostByModelBarChart: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

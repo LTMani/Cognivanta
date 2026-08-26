@@ -9,7 +9,7 @@ interface BillingQuotaFormProps {
   onCancel?: () => void;
 }
 
-export const BillingQuotaForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const BillingQuotaForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

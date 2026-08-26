@@ -6,7 +6,7 @@ interface AgentTaskSuccessFunnelProps {
   height?: number;
 }
 
-export const AgentTaskSuccessFunnel: React.FC<undefined> = ({
+export const AgentTaskSuccessFunnel: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

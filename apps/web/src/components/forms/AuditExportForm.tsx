@@ -9,7 +9,7 @@ interface AuditExportFormProps {
   onCancel?: () => void;
 }
 
-export const AuditExportForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const AuditExportForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

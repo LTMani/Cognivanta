@@ -6,7 +6,7 @@ interface UserActivityLeaderboardProps {
   height?: number;
 }
 
-export const UserActivityLeaderboard: React.FC<undefined> = ({
+export const UserActivityLeaderboard: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

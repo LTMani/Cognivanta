@@ -9,7 +9,7 @@ interface WebhookEventDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const WebhookEventDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const WebhookEventDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Webhook Dispatch Logs & Payload">
       <div className="space-y-6">

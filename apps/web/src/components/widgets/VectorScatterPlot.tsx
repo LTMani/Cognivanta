@@ -7,7 +7,7 @@ interface VectorScatterPlotProps {
   height?: number;
 }
 
-export const VectorScatterPlot: React.FC<undefined> = ({
+export const VectorScatterPlot: React.FC<any> = ({
   title = 'VectorScatterPlot',
   height = 280
 }) => {

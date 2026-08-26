@@ -9,7 +9,7 @@ interface WorkflowExecutionDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const WorkflowExecutionDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const WorkflowExecutionDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Workflow DAG Execution Timeline">
       <div className="space-y-6">

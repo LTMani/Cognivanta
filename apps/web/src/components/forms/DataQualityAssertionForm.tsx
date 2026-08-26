@@ -9,7 +9,7 @@ interface DataQualityAssertionFormProps {
   onCancel?: () => void;
 }
 
-export const DataQualityAssertionForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const DataQualityAssertionForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

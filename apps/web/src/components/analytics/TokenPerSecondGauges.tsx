@@ -6,7 +6,7 @@ interface TokenPerSecondGaugesProps {
   height?: number;
 }
 
-export const TokenPerSecondGauges: React.FC<undefined> = ({
+export const TokenPerSecondGauges: React.FC<any> = ({
   timeRange = '7d',
   height = 260
 }) => {

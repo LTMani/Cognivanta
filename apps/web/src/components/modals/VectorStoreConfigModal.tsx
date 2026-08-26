@@ -9,7 +9,7 @@ interface VectorStoreConfigModalProps {
   onSubmit: (data: Record<string, unknown>) => void;
 }
 
-export const VectorStoreConfigModal: React.FC<undefined> = ({ isOpen, onClose, onSubmit }) => {
+export const VectorStoreConfigModal: React.FC<any> = ({ isOpen, onClose, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

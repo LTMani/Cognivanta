@@ -9,7 +9,7 @@ interface ABACPolicyFormProps {
   onCancel?: () => void;
 }
 
-export const ABACPolicyForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const ABACPolicyForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

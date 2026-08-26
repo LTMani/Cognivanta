@@ -9,7 +9,7 @@ interface CreateAgentModalProps {
   onSubmit: (data: Record<string, unknown>) => void;
 }
 
-export const CreateAgentModal: React.FC<undefined> = ({ isOpen, onClose, onSubmit }) => {
+export const CreateAgentModal: React.FC<any> = ({ isOpen, onClose, onSubmit }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -7,7 +7,7 @@ interface DiffCodeViewerProps {
   height?: number;
 }
 
-export const DiffCodeViewer: React.FC<undefined> = ({
+export const DiffCodeViewer: React.FC<any> = ({
   title = 'DiffCodeViewer',
   height = 280
 }) => {

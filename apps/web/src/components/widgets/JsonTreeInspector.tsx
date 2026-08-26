@@ -7,7 +7,7 @@ interface JsonTreeInspectorProps {
   height?: number;
 }
 
-export const JsonTreeInspector: React.FC<undefined> = ({
+export const JsonTreeInspector: React.FC<any> = ({
   title = 'JsonTreeInspector',
   height = 280
 }) => {

@@ -9,7 +9,7 @@ interface SemanticCacheFormProps {
   onCancel?: () => void;
 }
 
-export const SemanticCacheForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const SemanticCacheForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

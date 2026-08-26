@@ -9,7 +9,7 @@ interface JiraSettingsFormProps {
   onCancel?: () => void;
 }
 
-export const JiraSettingsForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const JiraSettingsForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

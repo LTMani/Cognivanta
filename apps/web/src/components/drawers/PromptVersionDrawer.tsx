@@ -9,7 +9,7 @@ interface PromptVersionDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const PromptVersionDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const PromptVersionDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Prompt Template Version History">
       <div className="space-y-6">

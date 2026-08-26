@@ -9,7 +9,7 @@ interface ApiKeyDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const ApiKeyDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const ApiKeyDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="API Key & Token Security Details">
       <div className="space-y-6">

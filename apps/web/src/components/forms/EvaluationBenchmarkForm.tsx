@@ -9,7 +9,7 @@ interface EvaluationBenchmarkFormProps {
   onCancel?: () => void;
 }
 
-export const EvaluationBenchmarkForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const EvaluationBenchmarkForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

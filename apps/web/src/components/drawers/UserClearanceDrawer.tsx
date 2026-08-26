@@ -9,7 +9,7 @@ interface UserClearanceDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const UserClearanceDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const UserClearanceDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="User Security Clearance & RBAC">
       <div className="space-y-6">

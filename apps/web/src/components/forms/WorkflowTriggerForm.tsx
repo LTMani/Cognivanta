@@ -9,7 +9,7 @@ interface WorkflowTriggerFormProps {
   onCancel?: () => void;
 }
 
-export const WorkflowTriggerForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const WorkflowTriggerForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,

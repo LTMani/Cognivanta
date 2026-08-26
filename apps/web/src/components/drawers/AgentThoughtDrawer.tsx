@@ -9,7 +9,7 @@ interface AgentThoughtDrawerProps {
   itemData?: Record<string, unknown>;
 }
 
-export const AgentThoughtDrawer: React.FC<undefined> = ({ isOpen, onClose, itemData = {} }) => {
+export const AgentThoughtDrawer: React.FC<any> = ({ isOpen, onClose, itemData = {} }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title="Agent Thought & Execution Inspector">
       <div className="space-y-6">

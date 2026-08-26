@@ -9,7 +9,7 @@ interface S3SettingsFormProps {
   onCancel?: () => void;
 }
 
-export const S3SettingsForm: React.FC<undefined> = ({ initialValues = {}, onSave, onCancel }) => {
+export const S3SettingsForm: React.FC<any> = ({ initialValues = {}, onSave, onCancel }) => {
   const [formData, setFormData] = useState<Record<string, unknown>>({
     name: 'Default Configuration',
     enabled: true,
