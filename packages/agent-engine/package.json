@@ -1,0 +1,19 @@
+{
+  "name": "@cognivanta/agent-engine",
+  "version": "1.0.0",
+  "description": "Cognivanta Autonomous AI Agent Engine, ReAct Planners, Tool Registry, and Memory Architecture",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*",
+    "@cognivanta/model-gateway": "*",
+    "@cognivanta/rag-engine": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
