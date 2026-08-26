@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/audit-compliance",
+  "version": "1.0.0",
+  "description": "Cognivanta Cryptographic Audit Logging, SHA-256 Chain Verification, PII Redaction, and ABAC Engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
