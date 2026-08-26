@@ -26,7 +26,7 @@
     "analytics"
   ],
   "author": "Cognivanta Engineering Team",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=9.0.0"

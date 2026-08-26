@@ -15,7 +15,7 @@
     "schemas"
   ],
   "author": "Cognivanta Engineering Team",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "dependencies": {
     "zod": "^3.23.8"
   },

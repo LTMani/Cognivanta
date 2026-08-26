@@ -13,13 +13,11 @@ dist/
 build/
 .next/
 out/
+*.zip
 
 # Environment and Secrets (NEVER COMMIT SECRETS)
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env*
+*.env.local
 *.pem
 *.key
 *.cert
