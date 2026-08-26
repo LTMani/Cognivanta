@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/event-streaming",
+  "version": "1.0.0",
+  "description": "Cognivanta Priority Job Queues, Dead Letter Queues, and PubSub Event Broker",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
