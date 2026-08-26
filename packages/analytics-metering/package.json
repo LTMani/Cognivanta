@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/analytics-metering",
+  "version": "1.0.0",
+  "description": "Cognivanta Token Usage Metering, Cost Attribution, Latency Aggregator, and Timeseries Analytics",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
