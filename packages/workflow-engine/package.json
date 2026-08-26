@@ -1,0 +1,20 @@
+{
+  "name": "@cognivanta/workflow-engine",
+  "version": "1.0.0",
+  "description": "Cognivanta Visual DAG Workflow Execution Engine, Topological Sorter, and Step Runtime",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*",
+    "@cognivanta/model-gateway": "*",
+    "@cognivanta/rag-engine": "*",
+    "@cognivanta/agent-engine": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
