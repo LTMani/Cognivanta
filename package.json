@@ -1,0 +1,37 @@
+{
+  "name": "cognivanta-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cognivanta - Enterprise AI Intelligence Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "loc:count": "node scripts/count-loc.js",
+    "scan:secrets": "node scripts/scan-secrets.js",
+    "seed": "node scripts/seed-data.js"
+  },
+  "keywords": [
+    "ai",
+    "enterprise",
+    "rag",
+    "agents",
+    "workflows",
+    "document-intelligence",
+    "analytics"
+  ],
+  "author": "Cognivanta Engineering Team",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

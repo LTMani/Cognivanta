@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/db",
+  "version": "1.0.0",
+  "description": "Cognivanta Database Persistence, Repositories, and SQL Migration Schema",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
