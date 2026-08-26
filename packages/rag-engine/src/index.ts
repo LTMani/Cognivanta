@@ -15,3 +15,6 @@ export * from './parsers/code.parser';
 export * from './parsers/parser.factory';
 export * from './chunkers/recursive.chunker';
 export * from './chunkers/semantic.chunker';
+export * from './retrieval/bm25.ranker';
+export * from './retrieval/hybrid.retriever';
+export * from './retrieval/citation.grounder';

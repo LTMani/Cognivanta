@@ -1,0 +1,17 @@
+{
+  "name": "@cognivanta/vector-store",
+  "version": "1.0.0",
+  "description": "Cognivanta Pluggable Vector Store, In-Memory HNSW Vector Index, and pgvector Adapter",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@cognivanta/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
